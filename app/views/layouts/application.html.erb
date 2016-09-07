@@ -8,6 +8,7 @@
 </head>
 <body>
   <div class="container">
+    <%= link_to 'Blocipedia', wikis_path, :class => 'navbar-link' %>
     <div class="pull-right user-info">
       <% if user_signed_in? %>
         Signed in as: <strong><%= current_user.email %></strong> |
