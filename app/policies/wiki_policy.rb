@@ -8,7 +8,7 @@ class WikiPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin?
+    true
   end
 
   def new?
@@ -24,7 +24,7 @@ class WikiPolicy < ApplicationPolicy
   end
 
   def destroy?
-    @user.admin?
+    user.admin? || record.user == user
   end
 
   def scope
