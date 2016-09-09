@@ -21,7 +21,7 @@ users = User.all
   wiki = Wiki.create!(
     title: Faker::GameOfThrones.character,
     body: Faker::Lorem.paragraph(5, true, 4),
-    private: Faker::Boolean.boolean(0.9),
+    private: Faker::Boolean.boolean(0.1),
     user: users.sample
   )
 end
@@ -30,7 +30,7 @@ end
   wiki = Wiki.create!(
     title: Faker::GameOfThrones.house,
     body: Faker::Lorem.paragraphs(2, true),
-    private: Faker::Boolean.boolean(0.9),
+    private: Faker::Boolean.boolean(0.1),
     user: users.sample
   )
 end
@@ -39,7 +39,7 @@ end
   wiki = Wiki.create!(
     title: Faker::GameOfThrones.city,
     body: Faker::Lorem.paragraphs(1, true),
-    private: Faker::Boolean.boolean(0.9),
+    private: Faker::Boolean.boolean(0.1),
     user: users.sample
   )
 end

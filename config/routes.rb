@@ -5,6 +5,10 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show]
 
+  resources :charges, only: [:new, :create]
+
+  patch "downgrade_account", to: "users#downgrade_account", as: "downgrade_account"
+
   authenticated do
     root to: 'wikis#index', as: :authenticated_root
   end
