@@ -5,15 +5,16 @@ class ChargesController < ApplicationController
       card: params[:stripeToken]
     )
 
-    charge = Stripe::Charge.create(
+    if charge = Stripe::Charge.create(
       customer: customer.id,
       amount: Amount.default,
       description: "Blocipedia - #{current_user.email}",
       currency: 'usd'
     )
-
-    flash[:notice] = "Congratulations, #{current_user.email}! You're account has been upgraded, and you are now free to create private Wikis."
-    redirect_to edit_user_registration_path
+      current_user.premium!
+      flash[:notice] = "Congratulations, #{current_user.email}! You're account has been upgraded, and you are now free to create private Wikis."
+      redirect_to edit_user_registration_path
+    end
 
     rescue Stripe::CardError => e
       flash[:alert] = e.message
@@ -27,4 +28,10 @@ class ChargesController < ApplicationController
       amount: Amount.default
     }
   end
+
+  def update
+    if current_user.premium?
+      current_user.standard!
+    end
+  end 
 end
