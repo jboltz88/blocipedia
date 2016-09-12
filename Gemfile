@@ -35,6 +35,7 @@ gem 'redcarpet'
 
 gem 'stripe'
 
+gem 'railroady'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
