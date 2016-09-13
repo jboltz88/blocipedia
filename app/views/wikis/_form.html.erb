@@ -25,7 +25,7 @@
       <% end %>
     </div>
   <% end %>
-  <% if wiki.private? %>
+  <% if wiki.private? && wiki.user == current_user %>
     <table class="table">
       <% @users.each do |user| %>
         <tr>
