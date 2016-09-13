@@ -26,15 +26,16 @@
     </div>
   <% end %>
   <% if wiki.private? %>
-    <table>
+    <table class="table">
       <% @users.each do |user| %>
         <tr>
           <td><h5><%= user.email %></h5></td>
           <td>
-            <% if wiki.collaborators.include?(user) %>
-              <%= button_to "Remove Collaborator", class: 'btn btn-danger', method: :delete %>
+            <% if wiki.users.include?(user) %>
+              <% collaborator = wiki.collaborator_for(user) %>
+              <%= link_to "Remove Collaborator", [wiki, collaborator], class: 'btn btn-danger', method: :delete %>
             <% else %>
-              <%= button_to "Add Collaborator", wiki_collaborators_path(wiki, user), class: 'btn btn-primary' %>
+              <%= link_to "Add Collaborator", wiki_collaborators_path(wiki, user_id: user.id), class: 'btn btn-primary', method: :post %>
             <% end %>
           </td>
         </tr>

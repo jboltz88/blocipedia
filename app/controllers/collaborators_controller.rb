@@ -1,8 +1,7 @@
 class CollaboratorsController < ApplicationController
   def create
-    @wiki = Wiki.find(params[:id])
-    @user = User.find(params[:id])
-    @collaborator = @wiki.collaborators.build(collaborator_params)
+    @wiki = Wiki.find(params[:wiki_id])
+    @collaborator = @wiki.collaborators.new(user_id: params[:user_id])
 
     if @collaborator.save
       flash[:notice] = "Collaborator successfully added"
@@ -12,9 +11,10 @@ class CollaboratorsController < ApplicationController
     redirect_to edit_wiki_path(@wiki)
   end
 
-  private
-
-  def collaborator_params
-    params.require(:collaborator).permit(:user_id, :wiki_id)
+  def destroy
+    @wiki = Wiki.find(params[:wiki_id])
+    @collaborator = Collaborator.find(params[:id])
+    @collaborator.destroy
+    redirect_to edit_wiki_path(@wiki)
   end
 end
