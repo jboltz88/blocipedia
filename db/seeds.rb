@@ -1,5 +1,6 @@
 10.times do
   user = User.new(
+    name: Faker::Name.name,
     email: Faker::Internet.email,
     password: "password"
   )
