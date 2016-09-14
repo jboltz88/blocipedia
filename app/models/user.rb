@@ -4,9 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
   has_many :wikis
-  after_initialize :init
+  has_many :collaborators
+  has_many :collaborator_wikis, through: :collaborators, source: :wiki
 
-  def init
+  after_initialize :set_default_role
+
+  def set_default_role
     self.role ||= :standard
   end
 

@@ -28,10 +28,4 @@ class ChargesController < ApplicationController
       amount: Amount.default
     }
   end
-
-  def update
-    if current_user.premium?
-      current_user.standard!
-    end
-  end 
 end

@@ -1,14 +1,14 @@
 class WikiPolicy < ApplicationPolicy
   def index?
-    true
+    user.present?
   end
 
   def show?
-    scope.where(:id => record.id).exists? && (!record.private? || record.user == user || user.admin?)
+    record && (!record.private? || record.user == user || user.admin? || record.users.include?(user))
   end
 
   def create?
-    true
+    user.present?
   end
 
   def new?
@@ -16,7 +16,7 @@ class WikiPolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? && (record.user == user || user.admin?)
+    user.present? && (record.user == user || user.admin? || record.users.include?(user))
   end
 
   def edit?
@@ -41,7 +41,26 @@ class WikiPolicy < ApplicationPolicy
     end
 
     def resolve
-      scope
+      wikis = []
+      if user.role == 'admin'
+        wikis = scope.all #show admins all wikis
+      elsif user.role == 'premium'
+        all_wikis = scope.all
+        all_wikis.each do |wiki|
+          if !wiki.private? || wiki.user == user || wiki.users.include?(user)
+            wikis << wiki #for premium users, show all public wikis and private wikis they either created or are a collaborator for
+          end
+        end
+      else #standard users
+        all_wikis = scope.all
+        wikis = []
+        all_wikis.each do |wiki|
+          if !wiki.private? || wiki.users.include?(user)
+            wikis << wiki #only show public wikis and wikis they are collaborators for
+          end
+        end
+      end
+      wikis #return the wikis array
     end
   end
 end

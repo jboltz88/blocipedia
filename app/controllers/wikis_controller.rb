@@ -1,10 +1,9 @@
 class WikisController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
-  after_action :verify_authorized
+  after_action :verify_authorized, except: :index
 
   def index
-    @wikis = Wiki.all
-    authorize @wikis
+    @wikis = policy_scope(Wiki)
   end
 
   def show
@@ -34,6 +33,7 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
+    @users = User.all
     authorize @wiki
   end
 
@@ -53,7 +53,7 @@ class WikisController < ApplicationController
   def destroy
     @wiki = Wiki.find(params[:id])
     authorize @wiki
-    
+
     if @wiki.destroy
       flash[:notice] = "Wiki was successfully deleted."
       redirect_to root_path
