@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
 
   after_initialize :set_default_role
 
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+  
   def set_default_role
     self.role ||= :standard
   end
