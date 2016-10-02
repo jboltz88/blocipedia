@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
 
   enum role: [:standard, :premium, :admin]
 
+  default_scope { order('name ASC') }
   scope :all_except, -> (user) { where.not(id: user) }
 
 end
