@@ -11,11 +11,14 @@ class User < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: :slugged
-  
+
   def set_default_role
     self.role ||= :standard
   end
 
   enum role: [:standard, :premium, :admin]
+
+  default_scope { order('name ASC') }
+  scope :all_except, -> (user) { where.not(id: user) }
 
 end
