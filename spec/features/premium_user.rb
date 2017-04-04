@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-RSpec.feature "User Creates To Dos", type: :feature do
+RSpec.feature "Premium User Uses Site Functions", type: :feature do
 
   scenario "successfully" do
     # Setup
